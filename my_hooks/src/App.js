@@ -366,4 +366,252 @@ function App() {
 export default App;
 // 화면의 Delete 버튼을 누르면 Are you sure메시지가 담긴 확인창이 뜸.
 // 확인창에서 '확인'을 누르면 콘솔창에 Delete it이 출력됨.
-// 확인창에서 '취소'를 누르면 콘솔창에 Abort it이 출력됨. */
+// 확인창에서 '취소'를 누르면 콘솔창에 Abort it이 출력됨. 
+*/
+
+/////////////////
+
+
+
+
+
+
+
+
+/* import React from 'react';
+
+const usePreventLeave = () => {
+  const listener = (event) => {
+    event.preventDefault();
+    event.returnValue = ""
+  }
+  const enablePrevent = () => window.addEventListener("beforeunload", listener)
+  const disablePrevent = () => window.removeEventListener("beforeunload", listener)
+  
+  return {enablePrevent, disablePrevent}
+}
+
+function App () {
+  const { enablePrevent, disablePrevent } = usePreventLeave();
+  return (
+    <>
+    <button onClick={enablePrevent}>Protect</button>
+    <button onClick={disablePrevent}>UnProtect</button>
+    </>
+  )
+}
+export default App;
+// Protect버튼을 누르고, 윈도우 창을 닫으면   "변경한 내용이 저장되지 않을 수 있습니다."라는 확인창이 뜸.
+// UnProtect버튼을 누르고, 윈도우 창을 닫으면   바로 닫힘.
+ */
+
+
+////////////////
+
+
+/*
+ import React, { useEffect } from 'react'
+
+const useBeforeLeave = (onBefore) => {
+  
+  const handle = () => {
+    onBefore();
+  }
+
+  useEffect(()=>{
+    document.addEventListener("mouseleave", handle);
+    return () => document.removeEventListener("mouseleave", handle)
+  }, [])
+
+}
+
+
+function App() {
+  const begForLife = () => console.log("please Don`t leave")
+  useBeforeLeave(begForLife)
+  
+  return (
+    <h1>Hello</h1>
+  )
+}
+export default App;
+// 마우스가 document창을 벗어나면 콘솔창에 please Don`t leave가 출력됨.
+ */
+
+
+/////////////////////////
+
+
+/*
+ import React, { useEffect, useRef } from 'react'
+
+const useFadeIn = (duration = 1, delay = 0) => {
+  const element = useRef();
+
+  useEffect(()=> {
+    if (element.current) {
+      const {current} = element;
+      current.style.transition = `opacity ${duration}s ease-in-out ${delay}s`
+      current.style.opacity = 1
+    }
+  }, [])
+  return { ref: element, style: {opacity: 0} };
+}
+
+
+function App() {
+  const fadeInH1 = useFadeIn(3, 1);
+  const fadeInP = useFadeIn(3, 5);
+  return (
+    <>
+    <h1 {...fadeInH1}>Hello</h1>
+    <p {...fadeInP}>lorem ipsum</p>
+    </>
+  )
+}
+export default App;
+// Hello가 1초후에 3초동안 서서히 나타남.
+// lorem ipsum이 5초후에 3초동안 서서히 나타남. 
+*/
+
+
+///////////////////////
+
+
+/* import React, {useState, useEffect} from 'react';
+
+const useNetwork = onChange => {
+  const [status, setStatus ] = useState(navigator.onLine)
+  
+  const handleChange = () => {
+    if(typeof onChange === "function") {
+      onChange(navigator.onLine)
+    }
+    setStatus(navigator.onLine)
+  } 
+
+  useEffect(()=> {
+    window.addEventListener("online", handleChange);
+    window.addEventListener("offline", handleChange);
+    return () => {window.removeEventListener("online", handleChange);
+                   window.removeEventListener("offline", handleChange);}
+    },[])
+
+  return status;
+}
+
+
+function App() {
+  const handleNetworkChange = online => {
+    console.log(online ? "We just went online" : "We are offline")
+  }
+
+  const onLine = useNetwork(handleNetworkChange);
+  return (
+    <>
+    <h1>{onLine ? "Online" : "Offline"}</h1>
+    </>
+  )
+}
+export default App;
+// 온라인 상태일 때 화면에 Online이 표시되며, 콘솔창에 We just went online이 출력됨.
+// 오프라인 상태일 때 화면에 Offline이 표시되며, 콘솔창에 We are offline이 출력됨.
+ */
+
+//////////////////////
+
+
+/* 
+import React, { useState, useEffect } from 'react'
+
+const useScroll = () => {
+  const [state, setState] = useState({
+    x: 0,
+    y: 0
+  })
+
+  const onScroll = () => {
+    setState({ x: window.scrollX, y: window.scrollY })
+  }
+
+  useEffect(()=> {
+    window.addEventListener("scroll", onScroll)
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+  return state;
+}
+
+function App() {
+  const { y } = useScroll();
+  return (
+    <div className="App" style={{ height: "1000vh"}}>
+      <h1 style={{ position: "fixed", color: y > 100 ? "red" : "blue"}}>Hi</h1>
+    </div>
+  )
+}
+export default App;
+// 스크롤을 내리면 파란색의 Hi가 빨간색의 Hi로 바뀜.
+*/
+
+/////////////////////////
+
+
+import React, {useState, useEffect, useRef } from 'react';
+
+const useFullscreen = (onFullS) => {
+  const element = useRef();
+
+  const triggerFull = () => {
+    if(element.current) {
+      element.current.requestFullscreen();
+
+      if(onFullS && typeof onFullS === "function") {
+        onFullS(true)
+      }
+    }
+  }
+
+  const exitFull = () => {
+    document.exitFullscreen();
+
+  if(onFullS && typeof onFullS === "function") {
+    onFullS(false)
+    }
+  }
+  return { element, triggerFull, exitFull }
+}
+  
+
+function App() {
+  
+  const onFullS = (isFull) => {
+    console.log(isFull ? "We are full" : "We are small")
+  }
+
+  const {element, triggerFull, exitFull } = useFullscreen(onFullS);
+  
+  return (
+    <>
+    <div ref={element}>
+      <img  src="https://i.ibb.co/R6RwNxx/grape.jpg" alt="grape" width="250"></img>
+      <button onClick={exitFull}>Exit Full</button>
+    </div>
+    <button onClick={triggerFull}>Make Full</button>
+    </>
+  )
+}
+export default App;
+// Make Full 버튼을 누르면 스크린이 커지면서 콘솔창에 We are full이 출력됨.
+// Exit Full 버튼을 누르면 스크린이 원래대로 작아지면서 콘솔창에 We are small이 출력됨.
+
+
+
+
+
+
+
+
+
+
+
