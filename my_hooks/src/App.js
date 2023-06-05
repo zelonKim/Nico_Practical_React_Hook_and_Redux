@@ -557,7 +557,7 @@ export default App;
 /////////////////////////
 
 
-import React, {useState, useEffect, useRef } from 'react';
+/* import React, {useState, useEffect, useRef } from 'react';
 
 const useFullscreen = (onFullS) => {
   const element = useRef();
@@ -604,11 +604,70 @@ function App() {
 export default App;
 // Make Full 버튼을 누르면 스크린이 커지면서 콘솔창에 We are full이 출력됨.
 // Exit Full 버튼을 누르면 스크린이 원래대로 작아지면서 콘솔창에 We are small이 출력됨.
+ */
+
+
+
+////////////////////////
 
 
 
 
 
+
+/* const useNotification = (title, options) => {
+  if(!("Notification" in window)) {
+    return
+    }
+  const fireNotif = () => {
+    if(Notification.permission !== "granted") {
+      Notification.requestPermission().then(permission => {
+        if(permission === "granted") {
+          new Notification(title, options)
+        } else {
+      return
+    }
+  })
+} else {
+  new Notification(title, options)
+}
+  }  
+return fireNotif
+}
+
+function App() {
+  const triggerNotif = useNotification("Can I steal your kimchi?", {body: "I love kimchi"})
+  return (
+    <>
+    <button onClick={triggerNotif}>Hello</button>
+    </>
+  )
+}
+export default App;
+// Hello 버튼을 클릭하면 알림 허용 상태일 경우, 'Can I steal your kimchi?'라는 제목과 'I love kimchi'라는 내용을 가진 알림창이 뜸.
+ */
+
+///////////////////////
+
+/*
+ import React from 'react'
+import useAxios from "./useAxios";
+
+function App () {
+  const { loading, data, error, refetch } = useAxios({url:"https://yts.mx/api/v2/list_movies.json"})
+  
+  console.log(loading, error, JSON.stringify(data))
+
+  return(
+    <>
+    <h2>{loading && "Loading"}</h2>
+    <h1>{data && data.status }</h1>
+    <button onClick={refetch}>Refetch</button>
+    </>
+  )
+}
+export default App; 
+*/
 
 
 
